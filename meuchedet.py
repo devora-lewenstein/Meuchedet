@@ -16,7 +16,9 @@
 
 import datetime as dt
 import coverage
-from coverage import basic, adif, c
+from coverage import Basic
+from coverage import Adif
+from coverage import C
 
 class Meuchedet:
     tdz=[]
@@ -58,18 +60,65 @@ class Meuchedet:
             self.lastName = newName
 
     def charge(self):
-        cost = 0
-        if self.age <= 18 :
-            cost = 20
-        elif 18 < self.age <=50:
-            cost = 40
-        elif self.age >50:
-            cost = 60
-        if self.coveragePlan == 'c':
-            cost += 20
-        elif self.coveragePlan =='adif':
-            cost += 10
-        print (f"The cost of your plan {self.coveragePlan} at age {self.age} is {cost}")
+        basic = Basic()
+        adif = Adif()
+        c = C()
+        if self.age <= 18:
+            if self.coveragePlan.lower() == basic.plan.lower():
+                print (f"The cost of your plan {self.coveragePlan} at age {self.age} is {basic.get_basic_cost()}")
+                
+            elif self.coveragePlan.lower() == adif.plan.lower(): 
+                print (f"The cost of your plan {self.coveragePlan} at age {self.age} is {adif.get_cost_adif()}")
+
+            elif self.coveragePlan == c.plan.lower():
+                print (f"The cost of your plan {self.coveragePlan} at age {self.age} is {c.get_cost_c()}")
+
+
+        if self.age > 18 and self.age <50:
+            if self.coveragePlan.lower() == basic.plan.lower():
+                cost= basic.get_basic_cost()
+                cost+=10
+                print (f"The cost of your plan {self.coveragePlan} at age {self.age} is {cost}")
+                
+            elif self.coveragePlan.lower() == adif.plan.lower():
+                cost = adif.get_cost_adif()
+                cost +=10
+                print (f"The cost of your plan {self.coveragePlan} at age {self.age} is {cost}")                
+        
+            elif self.coveragePlan == c.plan.lower():
+                cost = c.get_cost_c()
+                cost +=10
+               # return cost
+                print (f"The cost of your plan {self.coveragePlan} at age {self.age} is {cost}")
+
+            
+        if self.age >= 50:
+            if self.coveragePlan.lower() == basic.plan.lower():
+                cost = basic.get_basic_cost() + 20
+                print (f"The cost of your plan {self.coveragePlan} at age {self.age} is {cost}")
+                
+            elif self.coveragePlan.lower() == adif.plan.lower():
+                cost = adif.get_cost_adif() + 20
+                print (f"The cost of your plan {self.coveragePlan} at age {self.age} is {cost}")                
+        
+            elif self.coveragePlan == c.plan.lower():
+                cost = c.get_cost_c() + 30
+                print (f"The cost of your plan {self.coveragePlan} at age {self.age} is {cost}")                
+
+
+    # def charge(self):
+    #     cost = 0
+    #     if self.age <= 18 :
+    #         cost = 20
+    #     elif 18 < self.age <=50:
+    #         cost = 40
+    #     elif self.age >50:
+    #         cost = 60
+    #     if self.coveragePlan == 'c':
+    #         cost += 20
+    #     elif self.coveragePlan =='adif':
+    #         cost += 10
+    #     print (f"The cost of your plan {self.coveragePlan} at age {self.age} is {cost}")
    
     def call_number(self):
         quest = input("Do you need a patients phone number? Please enter yes or no.")
@@ -124,9 +173,9 @@ Person1 = Meuchedet()
 Person1.initClient()
 Person1.update_age()
 Person1.update_lastname()
-Person1.charge()
 Person1.call_number()
 Person1.gender_plan()
+Person1.charge()
 #Person2 = Meuchedet()
 #Person2.initClient()
 #print(Person1)
